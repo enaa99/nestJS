@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { CreateMovieDTO } from './dto/create-movie.dto';
 import { UpdateMovieDTO } from './dto/update-movie.dto';
-import { Movie } from './entities/Movie.entity';
+import { Movie } from './entity/Movie.entity';
 import { MoviesService } from './movies.service';
 
 @Controller('movies')
@@ -39,7 +39,7 @@ export class MoviesController {
   }
 
   @Patch('/:id')
-  patch(@Param('id') movieId: number, @Body() updateData:UpdateMovieDTO) {
+  patch(@Param('id') movieId: number, @Body() updateData: UpdateMovieDTO) {
     return this.moviesService.update(movieId, updateData);
   }
 }

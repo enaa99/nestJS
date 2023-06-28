@@ -19,5 +19,5 @@ export class Movie extends BaseEntity {
   year: number;
 
   @Column()
-  genres: string[];
+  genres: string;
 }

@@ -19,6 +19,8 @@ import { ConfigModule } from '@nestjs/config';
       password: process.env.DB_PASSWD,
       database: 'nest',
       synchronize: true,
+      logging: true,
+      entities: [__dirname + '/**/*.entity.{js,ts}'],
     }),
     MoviesModule,
   ],
