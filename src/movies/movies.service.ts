@@ -2,9 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMovieDTO } from './dto/create-movie.dto';
 import { UpdateMovieDTO } from './dto/update-movie.dto';
 import { Movie } from './entities/Movie.entity';
-
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class MoviesService {
+  constructor(
+    @InjectRepository(Movie)
+    private movieRepository: Repository<Movie>,
+  ) {}
   private movies: Movie[] = [];
 
   getAll(): Movie[] {
@@ -25,16 +30,17 @@ export class MoviesService {
     this.movies = this.movies.filter((movie) => movie.id !== +id);
   }
 
-  create(movieData: CreateMovieDTO) {
-    this.movies.push({
-      id: this.movies.length + 1,
-      ...movieData,
-    });
+  async create(movieData: CreateMovieDTO) {
+    // this.movies.push({
+    //   id: this.movies.length + 1,
+    //   ...movieData,
+    // });
+    const getSave = await this.movieRepository.save(movieData);
   }
 
   update(id: number, updateData: UpdateMovieDTO) {
-    const movie = this.getOne(id);
-    this.deleteOne(id);
-    this.movies.push({ ...movie, ...updateData });
+    // const movie = this.getOne(id);
+    // this.deleteOne(id);
+    // this.movies.push({ ...movie, ...updateData });
   }
 }

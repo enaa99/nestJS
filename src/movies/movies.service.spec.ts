@@ -1,5 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { UpdateMovieDTO } from './dto/update-movie.dto';
 import { MoviesService } from './movies.service';
 
 describe('MoviesService', () => {
@@ -87,7 +88,9 @@ describe('MoviesService', () => {
 
   describe('update', () => {
     it('should update a movie', () => {
-      service.update(1, { title: 'Updated Test', year: 1, genres: ['check'] });
+      const dto = new UpdateMovieDTO();
+      dto.title = 'Updated Test';
+      service.update(1, dto);
       const movie = service.getOne(1);
       expect(movie.title).toEqual('Updated Test');
     });
