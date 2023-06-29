@@ -36,16 +36,21 @@ export class MoviesService {
     //   id: this.movies.length + 1,
     //   ...movieData,
     // });
+    const movie = new Movie();
+    movie.title = movieData.title;
+    movie.year = movieData.year;
+    movie.genres = [];
 
-    const genres = [];
-    for (let movie in movieData.genres) {
-      let movieGenre = new MovieGenres();
-      movieGenre.genre = movie;
+    movieData.genres.map((genreDto) => {
+      console.log(genreDto + '여기이거');
+      const genre = new MovieGenres();
+      genre.genre = genreDto;
+      genre.movie = movie;
 
-      genres.push(movieGenre);
-    }
+      movie.genres.push(genre);
+    });
 
-    const getSave = await this.movieRepository.save(movieData);
+    await this.movieRepository.save(movie);
   }
 
   update(id: number, updateData: UpdateMovieDTO) {
