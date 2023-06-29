@@ -4,6 +4,7 @@ import { UpdateMovieDTO } from './dto/update-movie.dto';
 import { Movie } from './entity/Movie.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MovieGenres } from './entity/movie-genres.entity';
 @Injectable()
 export class MoviesService {
   constructor(
@@ -35,6 +36,15 @@ export class MoviesService {
     //   id: this.movies.length + 1,
     //   ...movieData,
     // });
+
+    const genres = [];
+    for (let movie in movieData.genres) {
+      let movieGenre = new MovieGenres();
+      movieGenre.genre = movie;
+
+      genres.push(movieGenre);
+    }
+
     const getSave = await this.movieRepository.save(movieData);
   }
 

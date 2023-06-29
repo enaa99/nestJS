@@ -1,4 +1,5 @@
 import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
+import { MovieGenres } from '../entity/movie-genres.entity';
 
 export class CreateMovieDTO {
   @IsString()
@@ -9,5 +10,5 @@ export class CreateMovieDTO {
 
   @IsOptional()
   @IsString({ each: true })
-  readonly genres: string;
+  readonly genres: MovieGenres[];
 }

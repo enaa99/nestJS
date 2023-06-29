@@ -1,23 +1,28 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   Index,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { MovieGenres } from './movie-genres.entity';
 
 @Entity()
-export class Movie extends BaseEntity {
+export class Movie {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  @Index()
+  @Column({
+    unique: true,
+  })
   title: string;
 
   @Column()
   year: number;
 
-  @Column()
-  genres: string;
+  @OneToMany(() => MovieGenres, (target) => target.movie, {
+    cascade: ['insert', 'update'],
+  })
+  genres: MovieGenres[];
 }

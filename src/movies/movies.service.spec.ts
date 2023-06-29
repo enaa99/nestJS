@@ -1,6 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UpdateMovieDTO } from './dto/update-movie.dto';
+import { MovieGenres } from './entity/movie-genres.entity';
 import { MoviesService } from './movies.service';
 
 describe('MoviesService', () => {
@@ -11,10 +12,19 @@ describe('MoviesService', () => {
       providers: [MoviesService],
     }).compile();
 
-    service = module.get<MoviesService>(MoviesService);
+    const genres = [];
+
+    const genre1 = new MovieGenres();
+    genre1.genre = 'horror';
+    genres.push(genre1);
+
+    const genre2 = new MovieGenres();
+    genre2.genre = 'romance';
+    genres.push(genre2);
+
     service.create({
       title: 'Test Movie',
-      genres: 'test',
+      genres: genres,
       year: 2000,
     });
   });
@@ -32,11 +42,6 @@ describe('MoviesService', () => {
 
   describe('getOne', () => {
     it('should return a movie', () => {
-      service.create({
-        title: 'Test Movie',
-        genres: 'test',
-        year: 2000,
-      });
       const movie = service.getOne(1);
       expect(movie).toBeDefined();
       expect(movie.id).toEqual(1);
@@ -53,11 +58,6 @@ describe('MoviesService', () => {
 
   describe('deleteOne', () => {
     it('deletes a movie', () => {
-      service.create({
-        title: 'Test Movie',
-        genres: 'test',
-        year: 2000,
-      });
       const beforeDelete = service.getAll();
       service.deleteOne(1);
       const afterDelete = service.getAll();
@@ -76,10 +76,14 @@ describe('MoviesService', () => {
   describe('create', () => {
     it('should create a movie', () => {
       const beforeCreate = service.getAll().length;
+      const tests = [];
+      const gen = new MovieGenres();
+      gen.genre = 'sexy';
+      tests.push(gen);
       service.create({
-        title: 'Test Movie',
-        genres: 'test',
-        year: 2000,
+        title: 'Test Movie2',
+        genres: tests,
+        year: 2002,
       });
       const afterCreate = service.getAll().length;
       expect(afterCreate).toBeGreaterThan(beforeCreate);
